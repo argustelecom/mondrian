@@ -245,24 +245,28 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
             + oldHeader.toString()
             + "\n\nto\n\n"
             + newHeader.toString());
+
         final HeaderInfo headerInfo = headerMap.get(oldHeader);
-        headerMap.remove(oldHeader);
-        headerMap.put(newHeader, headerInfo);
 
-        final List oldBitkeyKey = makeBitkeyKey(oldHeader);
-        List<SegmentHeader> headerList = bitkeyMap.get(oldBitkeyKey);
-        headerList.remove(oldHeader);
-        headerList.add(newHeader);
+        if (headerInfo != null) {
+            headerMap.remove(oldHeader);
+            headerMap.put(newHeader, headerInfo);
 
-        final List oldFactKey = makeFactKey(oldHeader);
-        final FactInfo factInfo = factMap.get(oldFactKey);
-        factInfo.headerList.remove(oldHeader);
-        factInfo.headerList.add(newHeader);
+            final List oldBitkeyKey = makeBitkeyKey(oldHeader);
+            List<SegmentHeader> headerList = bitkeyMap.get(oldBitkeyKey);
+            headerList.remove(oldHeader);
+            headerList.add(newHeader);
 
-        final List oldFuzzyFactKey = makeFuzzyFactKey(oldHeader);
-        final FuzzyFactInfo fuzzyFactInfo = fuzzyFactMap.get(oldFuzzyFactKey);
-        fuzzyFactInfo.headerList.remove(oldHeader);
-        fuzzyFactInfo.headerList.add(newHeader);
+            final List oldFactKey = makeFactKey(oldHeader);
+            final FactInfo factInfo = factMap.get(oldFactKey);
+            factInfo.headerList.remove(oldHeader);
+            factInfo.headerList.add(newHeader);
+
+            final List oldFuzzyFactKey = makeFuzzyFactKey(oldHeader);
+            final FuzzyFactInfo fuzzyFactInfo = fuzzyFactMap.get(oldFuzzyFactKey);
+            fuzzyFactInfo.headerList.remove(oldHeader);
+            fuzzyFactInfo.headerList.add(newHeader);
+        }
     }
 
     public void loadSucceeded(SegmentHeader header, SegmentBody body) {
