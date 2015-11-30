@@ -248,7 +248,13 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
 
         final HeaderInfo headerInfo = headerMap.get(oldHeader);
 
-        if (headerInfo != null) {
+        if (headerInfo == null){
+            LOGGER.warn("SegmentCacheIndexImpl.update: Updating header from:\n"
+                    + oldHeader.toString()
+                    + "\n\nto\n\n"
+                    + newHeader.toString()
+                    + ". oldHeader not found. Concurrently removed?");
+        } else {
             headerMap.remove(oldHeader);
             headerMap.put(newHeader, headerInfo);
 
