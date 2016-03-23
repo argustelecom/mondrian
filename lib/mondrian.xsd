@@ -1275,6 +1275,22 @@
                 </xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
+        <xsd:attribute name="internalType" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    MONDRIAN-896, "Oracle integer columns overflow if value &gt;>2^31"       
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="int"/>
+                    <xsd:enumeration value="double"/>
+                    <xsd:enumeration value="Object"/>
+                    <xsd:enumeration value="String"/>
+                    <xsd:enumeration value="long"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
     </xsd:complexType>
     <xsd:group name="Relation">
         <xsd:choice>
