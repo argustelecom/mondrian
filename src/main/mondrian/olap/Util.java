@@ -245,6 +245,11 @@ public class Util extends XOMUtil {
                 public Thread newThread(Runnable r) {
                     final Thread t =
                         Executors.defaultThreadFactory().newThread(r);
+                    //kostd@Argus, TASK-59635: because our mondrian on hi-load works in same EE-environment as 
+                    //  "real-time-like" services like support-service and register-contact, mondrian threads would not win
+                    // concurrency from "real-time-like" task-threads. Mondrian threads should be "background-like" for task-threads. 
+                    // trying to acheve this throu MIN_PRIORITY setting
+                    t.setPriority(Thread.MIN_PRIORITY);
                     t.setDaemon(true);
                     t.setName(name + '_' + counter.incrementAndGet());
                     return t;
