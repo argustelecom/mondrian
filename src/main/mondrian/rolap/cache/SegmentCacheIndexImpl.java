@@ -131,19 +131,19 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         List<SegmentHeader> list = Collections.emptyList();
         final List starKey =
             makeBitkeyKey(
-                schemaName,
-                schemaChecksum,
-                cubeName,
-                rolapStarFactTableName,
-                constrainedColsBitKey,
-                measureName,
-                compoundPredicates);
+                    schemaName,
+                    schemaChecksum,
+                    cubeName,
+                    rolapStarFactTableName,
+                    constrainedColsBitKey,
+                    measureName,
+                    compoundPredicates);
         final List<SegmentHeader> headerList = bitkeyMap.get(starKey);
         if (headerList == null) {
             LOGGER.trace(
-                "SegmentCacheIndexImpl("
-                + System.identityHashCode(this)
-                + ").locate:NOMATCH");
+                    "SegmentCacheIndexImpl("
+                            + System.identityHashCode(this)
+                            + ").locate:NOMATCH");
             return Collections.emptyList();
         }
         for (SegmentHeader header : headerList) {
@@ -179,10 +179,10 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         checkThread();
 
         LOGGER.debug(
-            "SegmentCacheIndexImpl("
-            + System.identityHashCode(this)
-            + ").add:\n"
-            + header.toString());
+                "SegmentCacheIndexImpl("
+                        + System.identityHashCode(this)
+                        + ").add:\n"
+                        + header.toString());
 
         HeaderInfo headerInfo = headerMap.get(header);
         if (headerInfo == null) {
@@ -636,13 +636,13 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
 
     private List makeBitkeyKey(SegmentHeader header) {
         return makeBitkeyKey(
-            header.schemaName,
-            header.schemaChecksum,
-            header.cubeName,
-            header.rolapStarFactTableName,
-            header.constrainedColsBitKey,
-            header.measureName,
-            header.compoundPredicates);
+                header.schemaName,
+                header.schemaChecksum,
+                header.cubeName,
+                header.rolapStarFactTableName,
+                header.constrainedColsBitKey,
+                header.measureName,
+                header.compoundPredicates);
     }
 
     private List makeBitkeyKey(
@@ -655,23 +655,23 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         List<String> compoundPredicates)
     {
         return Arrays.asList(
-            schemaName,
-            schemaChecksum,
-            cubeName,
-            rolapStarFactTableName,
-            constrainedColsBitKey,
-            measureName,
-            compoundPredicates);
+                schemaName,
+                schemaChecksum,
+                cubeName,
+                rolapStarFactTableName,
+                constrainedColsBitKey,
+                measureName,
+                compoundPredicates);
     }
 
     private List makeFactKey(SegmentHeader header) {
         return makeFactKey(
-            header.schemaName,
-            header.schemaChecksum,
-            header.cubeName,
-            header.rolapStarFactTableName,
-            header.measureName,
-            header.compoundPredicates);
+                header.schemaName,
+                header.schemaChecksum,
+                header.cubeName,
+                header.rolapStarFactTableName,
+                header.measureName,
+                header.compoundPredicates);
     }
 
     private List makeFactKey(
@@ -683,21 +683,21 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
         List<String> compoundPredicates)
     {
         return Arrays.asList(
-            schemaName,
-            schemaChecksum,
-            cubeName,
-            rolapStarFactTableName,
-            measureName,
-            compoundPredicates);
+                schemaName,
+                schemaChecksum,
+                cubeName,
+                rolapStarFactTableName,
+                measureName,
+                compoundPredicates);
     }
 
     private List makeFuzzyFactKey(SegmentHeader header) {
         return makeFuzzyFactKey(
-            header.schemaName,
-            header.schemaChecksum,
-            header.cubeName,
-            header.rolapStarFactTableName,
-            header.measureName);
+                header.schemaName,
+                header.schemaChecksum,
+                header.cubeName,
+                header.rolapStarFactTableName,
+                header.measureName);
     }
 
     private List makeFuzzyFactKey(
@@ -758,14 +758,16 @@ public class SegmentCacheIndexImpl implements SegmentCacheIndex {
                 measureName,
                 compoundPredicates);
             final List<SegmentHeader> headers = bitkeyMap.get(bitkeyKey);
-            assert headers != null : "bitkeyPoset / bitkeyMap inconsistency";
+//            assert headers != null : "bitkeyPoset / bitkeyMap inconsistency";
 
             // For columns that are still present after roll up, make sure that
             // the required value is in the range covered by the segment.
             // Of the columns that are being aggregated away, are all of
             // them wildcarded? If so, this segment is a match. If not, we
             // will need to combine with other segments later.
-            findRollupCandidatesAmong(coordinates, list, headers);
+            if (headers != null) {
+                findRollupCandidatesAmong(coordinates, list, headers);
+            }
         }
         return list;
     }
