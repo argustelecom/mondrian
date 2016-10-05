@@ -1,3 +1,11 @@
+Создание jar'ки (взято отсюда http://mondrian.pentaho.com/documentation/developers_guide.php):
+1. Необходимо установить jdk версий 1.5, 1.6, 1.7
+2. В переменных среды указать соответственно JAVA_HOME_15 JAVA_HOME_16 JAVA_HOME_17
+3. В качестве JAVA_HOME указать jdk_1.7 (на офф сайте мондриана пишут указывать 1.5, но на ней у меня ничего не собралось)
+4. В корне проекта mondrian запустить build.bat jar
+
+
+Деплой в artifactory:
 1. Для создания sources jar необходимо вручную положить (как минимум) папку src в созданную при сборке jar'ку.
 2. При деплое нового билда в artifactory:
 2.1. Указать classifier sources
