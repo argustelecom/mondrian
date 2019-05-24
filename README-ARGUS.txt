@@ -1,253 +1,53 @@
-Создание jar'ки (взято отсюда http://mondrian.pentaho.com/documentation/developers_guide.php):
-1. Необходимо установить jdk версий 1.5, 1.6, 1.7
-2. В переменных среды указать соответственно JAVA_HOME_15 JAVA_HOME_16 JAVA_HOME_17
-3. В качестве JAVA_HOME указать jdk_1.7 (на офф сайте мондриана пишут указывать 1.5, но на ней у меня ничего не собралось)
-4. В корне проекта mondrian запустить build.bat jar
+#1 Сборка JAR
+Проект Mondrian является Maven проектом (см. pom.xml), поэтому для получения jar необходим установленный Maven.
+Для сборки проекта необходимо использовать специфичный settings.xml файл.
+Данный settings.xml файл можно найти в официальном репозитории: https://github.com/pentaho/maven-parent-poms/blob/master/maven-support-files/settings.xml
+Для скачивания со страницы Github необходимо перейти в режим RAW и сохранить файл через пункт контекстного меню "Сохранить как".
+
+Соответственно, чтобы выполнить сборку проекта необходимо выполнять Maven комманды с указанием этого settings.xml. Например:
+mvn -s D:/settings.xml clean install
+
+Собранный артефакт будет расположен здесь: .\mondrian\target\mondrian-<версия>.jar
 
 
-Деплой в artifactory:
-1. Для создания sources jar необходимо вручную положить (как минимум) папку src в созданную при сборке jar'ку.
-2. При деплое нового билда в artifactory:
-2.1. Указать classifier sources
-2.2. Добавить в пом, лежащий рядом с jar'кой эти зависимости:
+#2 Деплой в artifactory:
+1. Перейти в artifactory web ui: http://git:8081/artifactory
+2. В меню слева выбрать пункт "Artifacts"
+3. Раскрыть элемент "ext-release-local" (т.к. Mondrian - это сторонняя библиотека)
+4. Выбрать каталог /pentaho/mondrian/
+5. Нажать кнопку "Deploy" (c правой стороны, с иконкой стрелки)
+6. В "Target Repository" выбрать "ext-release-local"
+7. На вкладке "Single" добавить JAR файл собранного Mondrian
+8. Убедиться, что указана верная версия, а НЕ SNAPSHOT. Например: 3.14-ARGUS
+9. Нажать "Generate Default POM" чтобы Artifactory показал, какой pom он предлагает сгенерировать.
 
-<dependencies>
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-      <version>1.2.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-math</groupId>
-      <artifactId>commons-math</artifactId>
-      <version>1.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-      <version>1.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-vfs</groupId>
-      <artifactId>commons-vfs</artifactId>
-      <version>20100924-pentaho</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javacup</groupId>
-      <artifactId>javacup</artifactId>
-      <version>10k</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.java.dev.javacc</groupId>
-      <artifactId>javacc</artifactId>
-      <version>5.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>eigenbase</groupId>
-      <artifactId>eigenbase-xom</artifactId>
-      <version>1.3.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>eigenbase</groupId>
-      <artifactId>eigenbase-properties</artifactId>
-      <version>1.1.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>eigenbase</groupId>
-      <artifactId>eigenbase-resgen</artifactId>
-      <version>1.3.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>sun</groupId>
-      <artifactId>jlfgr</artifactId>
-      <version>1.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.olap4j</groupId>
-      <artifactId>olap4j</artifactId>
-      <version>1.2.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.olap4j</groupId>
-      <artifactId>olap4j</artifactId>
-      <version>1.2.0</version>
-      <type>source</type>
-      <classifier>sources</classifier>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.olap4j</groupId>
-      <artifactId>olap4j-tck</artifactId>
-      <version>1.0.1.539</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.olap4j</groupId>
-      <artifactId>olap4j-xmla</artifactId>
-      <version>1.2.0</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>xalan</groupId>
-      <artifactId>xalan</artifactId>
-      <version>2.6.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.9.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>backport-util-concurrent</groupId>
-      <artifactId>backport-util-concurrent</artifactId>
-      <version>3.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>3.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>asm</groupId>
-      <artifactId>asm-commons</artifactId>
-      <version>3.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>asm</groupId>
-      <artifactId>asm-util</artifactId>
-      <version>3.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>retroweaver</groupId>
-      <artifactId>retroweaver</artifactId>
-      <version>2.0.7</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>retroweaver</groupId>
-      <artifactId>retroweaver-rt</artifactId>
-      <version>2.0.7</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derby</artifactId>
-      <version>10.2.2.0</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>1.8.0.10</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.tonbeller</groupId>
-      <artifactId>jpivot</artifactId>
-      <version>1.8.0-100420</version>
-      <type>war</type>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>pentaho</groupId>
-      <artifactId>oss-licenses</artifactId>
-      <version>5.2.0.0-209</version>
-      <type>zip</type>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <version>1.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>monetdb</groupId>
-      <artifactId>monetdb-jdbc</artifactId>
-      <version>2.6</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.8.5</version>
-      <optional>true</optional>
-    </dependency>
-  </dependencies>
+(!)Важно: artifactory генерирует файл с ошибкой, его нужно исправить!
+
+При помощи Ctrl+A копируем содержимое и сохраняем его в отдельном файле с названием mondrian-<версия>. 
+Например: mondrian-3.14-ARGUS.pom
+
+Необходимо в этом файле блок "parent" заменить блоком "parent" из pom.xml файла проекта mondrian в нашем репозитории.
+Например:
+  <parent>
+    <groupId>pentaho</groupId>
+    <artifactId>pentaho-mondrian-parent-pom</artifactId>
+    <version>3.14-SNAPSHOT</version>
+  </parent>
+
+После этого флаг "Generate Default POM" убираем и нажимаем кнопку "Deploy".
+
+10. По аналогии с пунктами 5-7 деплоим созданный в пункте 9 "General POM".
+
+Теперь собранный артефакт доступен в артефактори для проектов аргус.
+
+
+#3 Добавить в Argus Appserver
+1. Открыть в репозитории аппсервера pom файл: \workspace\grandparent\pom.xml
+2. Изменить версию в property "version.mondrian".
+3. Собрать проект с новой версией.
+4. Убедиться, что при сборке Аргус получаем новый артефакт.
+Узнать локальный репозиторий: mvn help:evaluate -Dexpression=settings.localRepository
+Например, если локальный репозиторий D:\mvn\, то новый артефакт должен появиться здесь: D:\mvn\pentaho\mondrian\
+5. Выполнить проверку базового функционала аппсервера, который связан с построением сводных отчётов
+
+
