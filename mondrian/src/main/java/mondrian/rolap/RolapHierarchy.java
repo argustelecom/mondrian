@@ -197,7 +197,8 @@ public class RolapHierarchy extends HierarchyBase {
         this.xmlHierarchy = xmlHierarchy;
         MondrianDef.RelationOrJoin xmlHierarchyRelation = xmlHierarchy.relation;
         if (xmlHierarchy.relation == null
-            && xmlHierarchy.memberReaderClass == null
+            //when  memberReaderClass specified (for degenerated hierarchy) we should to build relation too.
+	    //&& xmlHierarchy.memberReaderClass == null
             && cube != null)
         {
           // if cube is virtual than there is no fact in it,
@@ -311,12 +312,15 @@ public class RolapHierarchy extends HierarchyBase {
         } else {
             this.sharedHierarchyName = null;
         }
-        if (xmlHierarchyRelation != null
+        
+	/** It is ok: to specify memberReaderClass for degenerate dimension. Because dimensions is degenerate, we have only one source in this case.
+	    The check makes this case impossible.
+	if (xmlHierarchyRelation != null
             && xmlHierarchy.memberReaderClass != null)
         {
             throw MondrianResource.instance()
                 .HierarchyMustNotHaveMoreThanOneSource.ex(getUniqueName());
-        }
+        } */
         if (!Util.isEmpty(xmlHierarchy.caption)) {
             setCaption(xmlHierarchy.caption);
         }

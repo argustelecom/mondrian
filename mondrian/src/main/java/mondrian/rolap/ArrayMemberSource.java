@@ -27,12 +27,12 @@ import java.util.List;
  * @author jhyde
  * @since 22 December, 2001
  */
-abstract class ArrayMemberSource implements MemberSource {
+public abstract class ArrayMemberSource implements MemberSource {
 
     protected final RolapHierarchy hierarchy;
     protected final List<RolapMember> members;
 
-    ArrayMemberSource(RolapHierarchy hierarchy, List<RolapMember> members) {
+    protected ArrayMemberSource(RolapHierarchy hierarchy, List<RolapMember> members) {
         this.hierarchy = hierarchy;
         this.members = members;
     }
